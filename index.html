@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>صفحة البداية</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            font-family: Arial, sans-serif;
+            color: #ecf0f1;
+        }
+
+        .start-button {
+            font-size: 48px;
+            background: linear-gradient(to bottom right, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .start-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .menu-container {
+            display: none;
+            background: rgba(52, 73, 94, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: 2px solid rgba(142, 68, 173, 0.3);
+        }
+
+        .game-type {
+            margin: 15px 0;
+        }
+
+        .type-title {
+            font-size: 24px;
+            color: #ecf0f1;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .levels {
+            display: flex;
+            gap: 10px;
+        }
+
+        .level-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(to bottom right, #3498db, #2980b9);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .level-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .game-screen {
+            display: none;
+            text-align: center;
+            background: rgba(52, 73, 94, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            width: 80%;
+            max-width: 600px;
+            border: 2px solid rgba(142, 68, 173, 0.3);
+        }
+
+        .word-display {
+            font-size: 48px;
+            margin: 20px 0;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .timer-container {
+            width: 100%;
+            height: 10px;
+            background: rgba(70, 86, 105, 0.4);
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .timer-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to right, #f1c40f, #f39c12);
+            border-radius: 5px;
+            transition: width 0.1s linear;
+        }
+
+        .score {
+            font-size: 20px;
+            color: #bdc3c7;
+            margin: 10px 0;
+        }
+
+        .game-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .game-button {
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: white;
+            font-weight: bold;
+        }
+
+        .new-button {
+            background: linear-gradient(to bottom right, #27ae60, #2ecc71);
+        }
+
+        .repeat-button {
+            background: linear-gradient(to bottom right, #e74c3c, #c0392b);
+        }
+
+        .game-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .message-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .message-content {
+            text-align: center;
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(142, 68, 173, 0.3);
+        }
+
+        .win-message {
+            background: rgba(39, 174, 96, 0.95);
+        }
+
+        .lose-message {
+            background: rgba(231, 76, 60, 0.95);
+        }
+
+        .message-content h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .message-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .restart-button {
+            background: #fff;
+            color: #27ae60;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .menu-button {
+            background: linear-gradient(to bottom right, #3498db, #2980b9);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .restart-button:hover, .menu-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* أنماط تحدي الكتابة */
+        .typing-game {
+            display: none;
+            text-align: center;
+            background: rgba(52, 73, 94, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            width: 80%;
+            max-width: 800px;
+            border: 2px solid rgba(142, 68, 173, 0.3);
+            direction: ltr; /* تعيين اتجاه النص من اليسار إلى اليمين */
+        }
+
+        .letters-container {
+            display: flex;
+            flex-direction: row; /* تغيير إلى row بدلاً من row-reverse */
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .letter-box {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;    
+            font-size: 24px;
+            font-weight: bold;
+            color: #ecf0f1;
+            background: rgba(52, 152, 219, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .letter-box.correct {
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+        }
+
+        .letter-box.wrong {
+            border-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+
+        .letter-box.current {
+            border-color: #f1c40f;
+            background: rgba(241, 196, 15, 0.2);
+            transform: scale(1.1);
+        }
+
+        .typing-timer {
+            width: 100%;
+            height: 6px;
+            background: rgba(70, 86, 105, 0.4);
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .typing-timer-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to right, #f1c40f, #f39c12);
+            border-radius: 3px;
+            transition: width 0.1s linear;
+        }
+
+        .typing-score {
+            font-size: 20px;
+            color: #bdc3c7;
+            margin: 10px 0;
+        }
+
+        .instructions {
+            color: #bdc3c7;
+            margin: 15px 0;
+            font-size: 18px;
+        }
+
+        /* أنماط تحدي فك التشابك */
+        .untangle-game {
+            display: none;
+            text-align: center;
+            background: rgba(52, 73, 94, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            width: 80%;
+            max-width: 800px;
+            border: 2px solid rgba(142, 68, 173, 0.3);
+        }
+
+        .game-canvas {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            margin: 20px auto;
+            cursor: pointer;
+        }
+
+        .untangle-timer {
+            width: 100%;
+            height: 6px;
+            background: rgba(70, 86, 105, 0.4);
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .untangle-timer-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to right, #f1c40f, #f39c12);
+            border-radius: 3px;
+            transition: width 0.1s linear;
+        }
+
+        /* أنماط تحدي Lockpick */
+        .lockpick-container {
+            width: 600px;
+            height: 100px;
+            background: rgba(0, 0, 0, 0.2);
+            position: relative;
+            margin: 20px auto;
+            border-radius: 5px;
+            overflow: visible; /* تغيير من hidden لإظهار المؤشر */
+        }
+
+        #targetFrame {
+            width: 30px;
+            height: 30px;
+            border: 2px solid #e67e22;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 10px rgba(230, 126, 34, 0.5);
+            transition: all 0.2s ease;
+            background: rgba(230, 126, 34, 0.1);
+        }
+
+        #targetFrame.close {
+            box-shadow: 0 0 15px rgba(230, 126, 34, 0.8);
+            border-color: #f39c12;
+            background: rgba(230, 126, 34, 0.2);
+        }
+
+        #targetFrame.perfect {
+            box-shadow: 0 0 20px rgba(46, 204, 113, 0.8);
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.3);
+        }
+
+        #movingSquare {
+            width: 26px;
+            height: 26px;
+            background-color: #e67e22;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .lockpick-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(70, 86, 105, 0.4);
+            margin: 10px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lockpick-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to right, #f1c40f, #f39c12);
+            transform-origin: left;
+            transform: scaleX(var(--progress, 1));
+            transition: transform 0.016s linear;
+        }
+
+        .overlap-indicator {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #bdc3c7;
+            font-size: 14px;
+            font-family: monospace;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <button class="start-button" id="startButton" onclick="showMenu()">Start</button>
+    
+    <div class="menu-container" id="menuContainer">
+        <div class="game-type">
+            <div class="type-title">Digital</div>
+            <div class="levels">
+                <button class="level-button" onclick="startGame('digital', 1)">تحدي الذاكرة الكلمات</button>
+                <button class="level-button" onclick="startGame('digital', 2)">تحدي الحروف</button>
+                <button class="level-button" onclick="startGame('digital', 3)">تحدي فك التشابك</button>
+            </div>
+        </div>
+        
+        <div class="game-type">
+            <div class="type-title">Lockpick</div>
+            <div class="levels">
+                <button class="level-button" onclick="startGame('lockpick', 1)">المستوى 1</button>
+                <button class="level-button" onclick="startGame('lockpick', 2)">المستوى 2</button>
+                <button class="level-button" onclick="startGame('lockpick', 3)">المستوى 3</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="memoryGame" class="game-screen">
+        <div class="score">النتيجة: <span id="scoreValue">0</span>/15</div>
+        <div class="timer-container">
+            <div id="timerBar" class="timer-bar"></div>
+        </div>
+        <div class="word-display" id="wordDisplay"></div>
+        <div class="game-buttons">
+            <button class="game-button new-button" onclick="checkAnswer('new')">جديدة</button>
+            <button class="game-button repeat-button" onclick="checkAnswer('repeat')">مكررة</button>
+        </div>
+    </div>
+
+    <div id="winMessage" class="message-overlay">
+        <div class="message-content win-message">
+            <h2>🎉 مبروك! أنت فزت! 🎉</h2>
+            <p>لقد أكملت التحدي بنجاح!</p>
+            <div class="message-buttons">
+                <button class="restart-button" onclick="restartGame()">العب مرة أخرى</button>
+                <button class="menu-button" onclick="returnToMainMenu()">القائمة الرئيسية</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loseMessage" class="message-overlay">
+        <div class="message-content lose-message">
+            <h2>❌ حاول مرة أخرى! ❌</h2>
+            <p>لم تكن الإجابة صحيحة</p>
+            <div class="message-buttons">
+                <button class="restart-button" onclick="restartGame()">حاول مرة أخرى</button>
+                <button class="menu-button" onclick="returnToMainMenu()">القائمة الرئيسية</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="typingGame" class="typing-game">
+        <div class="typing-score">المستوى: <span id="typingLevel">1</span></div>
+        <div class="typing-timer">
+            <div id="typingTimerBar" class="typing-timer-bar"></div>
+        </div>
+        <div class="letters-container" id="lettersContainer"></div>
+        <div class="instructions">اكتب الحروف بالترتيب الصحيح</div>
+    </div>
+
+    <div id="untangleGame" class="untangle-game">
+        <div class="untangle-timer">
+            <div id="untangleTimerBar" class="untangle-timer-bar"></div>
+        </div>
+        <canvas id="gameCanvas" class="game-canvas" width="600" height="400"></canvas>
+        <div class="instructions">حرك النقاط لفك تشابك الخطوط</div>
+    </div>
+
+    <div id="lockpickGame" class="game-screen">
+        <div class="instructions">اضغط على 'E' عندما يتطابق المربع البرتقالي مع الإطار البرتقالي</div>
+        <div class="lockpick-container">
+            <div id="targetFrame"></div>
+            <div id="movingSquare"></div>
+        </div>
+        <div id="progressBar" class="lockpick-progress"></div>
+    </div>
+
+    <script>
+        function showMenu() {
+            const menuContainer = document.getElementById('menuContainer');
+            const startButton = document.getElementById('startButton');
+            
+            menuContainer.style.display = 'block';
+            startButton.style.display = 'none';
+        }
+
+        const words = [
+            'accommodate', 'accumulate', 'achievement', 'acquaintance',
+            'surveillance', 'persistence', 'resistance', 'assistance',
+            'thoroughly', 'thoroughly', 'thoughtfully', 'thoughtlessly',
+            'particular', 'perpendicular', 'spectacular', 'peculiar',
+            'immediate', 'intermediate', 'eliminate', 'intimidate',
+            'necessary', 'excessive', 'processed', 'accessed',
+            'independent', 'intelligent', 'significant', 'persistent',
+            'experience', 'experiment', 'expensive', 'explosive',
+            'responsible', 'reasonable', 'respectable', 'reversible',
+            'subsequently', 'consequently', 'frequently', 'sequentially'
+        ];
+
+        let usedWords = new Set();
+        let seenWords = new Set();
+        let currentWord = '';
+        let score = 0;
+        let timer;
+        let timeLeft;
+        let attempts = 0;
+        const TOTAL_TIME = 15;
+        let totalGameTime = 15; // الوقت الكلي للتحدي
+        let currentGameTime = totalGameTime; // الوقت المتبقي
+        let wordRepeatCount = new Map(); // لتتبع عدد مرات تكرار كل كلمة
+        let lastWord = ''; // لتتبع آخر كلمة ظهرت
+
+        function startMemoryGame() {
+            const menuContainer = document.getElementById('menuContainer');
+            const gameScreen = document.getElementById('memoryGame');
+            
+            menuContainer.style.display = 'none';
+            gameScreen.style.display = 'block';
+            
+            resetGame();
+            showNextWord();
+            startGameTimer();
+        }
+
+        function resetGame() {
+            seenWords.clear();
+            wordRepeatCount.clear(); // إعادة تعيين عداد تكرار الكلمات
+            score = 0;
+            attempts = 0;
+            currentGameTime = totalGameTime;
+            document.getElementById('scoreValue').textContent = score;
+            document.getElementById('winMessage').style.display = 'none';
+            document.getElementById('loseMessage').style.display = 'none';
+            document.getElementById('timerBar').style.width = '100%';
+        }
+
+        function updateTimerBar(percentage) {
+            const timerBar = document.getElementById('timerBar');
+            timerBar.style.width = percentage + '%';
+            timerBar.style.backgroundColor = percentage < 30 ? '#f44336' : '#4CAF50';
+        }
+
+        function startGameTimer() {
+            clearInterval(timer);
+            timer = setInterval(() => {
+                currentGameTime--;
+                const percentage = (currentGameTime / totalGameTime) * 100;
+                updateTimerBar(percentage);
+                
+                if (currentGameTime <= 0) {
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function showNextWord() {
+            if (attempts >= 15 || currentGameTime <= 0) {
+                endGame();
+                return;
+            }
+
+            const shouldUseOldWord = seenWords.size > 0 && Math.random() < 0.4; // تعديل الاحتمالية إلى 40%
+            let selectedWord;
+
+            if (shouldUseOldWord) {
+                // اختيار كلمة من الكلمات التي ظهرت سابقاً ولم تتكرر مرتين
+                const availableWords = Array.from(seenWords).filter(word => 
+                    (wordRepeatCount.get(word) || 0) < 2 && word !== lastWord
+                );
+                
+                if (availableWords.length > 0) {
+                    selectedWord = availableWords[Math.floor(Math.random() * availableWords.length)];
+                } else {
+                    // إذا لم تكن هناك كلمات متاحة للتكرار، اختر كلمة جديدة
+                    do {
+                        selectedWord = words[Math.floor(Math.random() * words.length)];
+                    } while ((seenWords.has(selectedWord) && wordRepeatCount.get(selectedWord) >= 2) || selectedWord === lastWord);
+                }
+            } else {
+                // اختيار كلمة جديدة
+                do {
+                    selectedWord = words[Math.floor(Math.random() * words.length)];
+                } while ((seenWords.has(selectedWord) && wordRepeatCount.get(selectedWord) >= 2) || selectedWord === lastWord);
+            }
+
+            currentWord = selectedWord;
+            lastWord = currentWord; // تحديث آخر كلمة ظهرت
+
+            // تحديث عداد التكرار للكلمة الحالية
+            if (seenWords.has(currentWord)) {
+                wordRepeatCount.set(currentWord, (wordRepeatCount.get(currentWord) || 0) + 1);
+            }
+
+            document.getElementById('wordDisplay').textContent = currentWord;
+        }
+
+        function checkAnswer(answer) {
+            if (currentGameTime <= 0) {
+                endGame();
+                return;
+            }
+
+            const isRepeat = seenWords.has(currentWord);
+            const isCorrect = (answer === 'new' && !isRepeat) || (answer === 'repeat' && isRepeat);
+
+            if (isCorrect) {
+                score++;
+                document.getElementById('scoreValue').textContent = score;
+                attempts++;
+                if (!isRepeat) {
+                    seenWords.add(currentWord);
+                    wordRepeatCount.set(currentWord, 1); // تعيين عداد التكرار للكلمة الجديدة
+                }
+                showNextWord();
+            } else {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            clearInterval(timer);
+            setTimeout(() => {
+                if (score >= 10) {
+                    showMessage('win');
+                } else {
+                    showMessage('lose');
+                }
+            }, 2000);
+        }
+
+        function restartGame() {
+            const memoryGame = document.getElementById('memoryGame');
+            const typingGame = document.getElementById('typingGame');
+            const untangleGame = document.getElementById('untangleGame');
+            const lockpickGame = document.getElementById('lockpickGame');
+            
+            // إخفاء رسائل الفوز والخسارة
+            document.getElementById('winMessage').style.display = 'none';
+            document.getElementById('loseMessage').style.display = 'none';
+
+            // تحديد نوع اللعبة المعروضة حالياً وإعادة تشغيلها
+            if (memoryGame.style.display === 'block') {
+                resetGame();
+                showNextWord();
+                startGameTimer();
+            } else if (typingGame.style.display === 'block') {
+                resetTypingGame();
+            } else if (untangleGame.style.display === 'block') {
+                initializeGame();
+                startUntangleTimer();
+            } else if (lockpickGame.style.display === 'block') {
+                resetLockpickGame();
+            }
+        }
+
+        function showMessage(type) {
+            const winMessage = document.getElementById('winMessage');
+            const loseMessage = document.getElementById('loseMessage');
+            
+            winMessage.style.display = type === 'win' ? 'flex' : 'none';
+            loseMessage.style.display = type === 'lose' ? 'flex' : 'none';
+        }
+
+        function startGame(type, level) {
+            if (type === 'digital' && level === 1) {
+                startMemoryGame();
+            } else if (type === 'digital' && level === 2) {
+                startTypingGame();
+            } else if (type === 'digital' && level === 3) {
+                startUntangleGame();
+            } else if (type === 'lockpick' && level === 1) {
+                startLockpickGame();
+            } else {
+                console.log(`بدء اللعبة: النوع ${type}، المستوى ${level}`);
+            }
+        }
+
+        function returnToMainMenu() {
+            const menuContainer = document.getElementById('menuContainer');
+            const memoryGame = document.getElementById('memoryGame');
+            const typingGame = document.getElementById('typingGame');
+            const untangleGame = document.getElementById('untangleGame');
+            const lockpickGame = document.getElementById('lockpickGame');
+            const winMessage = document.getElementById('winMessage');
+            const loseMessage = document.getElementById('loseMessage');
+            
+            // إخفاء رسائل الفوز والخسارة
+            winMessage.style.display = 'none';
+            loseMessage.style.display = 'none';
+            
+            // إخفاء جميع شاشات اللعب
+            memoryGame.style.display = 'none';
+            typingGame.style.display = 'none';
+            untangleGame.style.display = 'none';
+            lockpickGame.style.display = 'none';
+            
+            // تنظيف الكانفاس
+            if (canvas && ctx) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                nodes = [];
+                edges = [];
+                selectedNode = null;
+            }
+            
+            // إظهار القائمة الرئيسية
+            menuContainer.style.display = 'block';
+            
+            // إيقاف جميع المؤقتات
+            clearInterval(timer);
+            clearInterval(typingTimer);
+            clearInterval(untangleTimer);
+            
+            // إزالة مستمعي الأحداث
+            document.removeEventListener('keypress', handleKeyPress);
+            if (canvas) {
+                canvas.removeEventListener('mousedown', handleMouseDown);
+                canvas.removeEventListener('mousemove', handleMouseMove);
+                canvas.removeEventListener('mouseup', handleMouseUp);
+                window.removeEventListener('mouseup', handleMouseUp);
+            }
+            
+            // إيقاف تحدي Lockpick
+            isLockpickGameActive = false;
+            cancelAnimationFrame(animationFrameId);
+            document.removeEventListener('keydown', handleLockpickKeyPress);
+        }
+
+        // تحدي الكتابة
+        let currentLetters = [];
+        let currentLetterIndex = 0;
+        let typingTimer;
+        let letterTime;
+        let totalTypingTime;
+
+        function generateRandomLetters(length) {
+            const letters = 'QWERASD';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += letters.charAt(Math.floor(Math.random() * letters.length));
+            }
+            return result;
+        }
+
+        function startTypingGame() {
+            const menuContainer = document.getElementById('menuContainer');
+            const gameScreen = document.getElementById('typingGame');
+            
+            menuContainer.style.display = 'none';
+            gameScreen.style.display = 'block';
+            
+            resetTypingGame();
+        }
+
+        function resetTypingGame() {
+            const length = Math.floor(Math.random() * 9) + 10; // 10 إلى 18 حرف
+            currentLetters = generateRandomLetters(length).split('');
+            currentLetterIndex = 0;
+            letterTime = 1000;
+            totalTypingTime = currentLetters.length * letterTime;
+
+            // إنشاء مربعات الحروف
+            const container = document.getElementById('lettersContainer');
+            container.innerHTML = '';
+            
+            // إنشاء الحروف من اليسار إلى اليمين
+            for (let i = currentLetters.length - 1; i >= 0; i--) {
+                const box = document.createElement('div');
+                box.className = 'letter-box';
+                box.textContent = currentLetters[i];
+                box.id = `letter-${currentLetters.length - 1 - i}`;
+                container.appendChild(box);
+            }
+
+            // عكس ترتيب المصفوفة لتتوافق مع ترتيب العرض
+            currentLetters.reverse();
+
+            updateTypingTimer();
+            document.getElementById(`letter-0`).classList.add('current');
+            document.addEventListener('keypress', handleKeyPress);
+        }
+
+        function updateTypingTimer() {
+            clearInterval(typingTimer);
+            let timeLeft = totalTypingTime;
+            
+            typingTimer = setInterval(() => {
+                timeLeft -= 10;
+                const percentage = (timeLeft / totalTypingTime) * 100;
+                document.getElementById('typingTimerBar').style.width = `${percentage}%`;
+                
+                if (timeLeft <= 0) {
+                    endTypingGame(false);
+                }
+            }, 10);
+        }
+
+        function handleKeyPress(event) {
+            const pressedKey = event.key.toUpperCase();
+            const currentLetter = currentLetters[currentLetterIndex];
+            const currentBox = document.getElementById(`letter-${currentLetterIndex}`);
+            
+            if (pressedKey === currentLetter) {
+                currentBox.classList.remove('current');
+                currentBox.classList.add('correct');
+                currentLetterIndex++;
+                
+                if (currentLetterIndex < currentLetters.length) {
+                    document.getElementById(`letter-${currentLetterIndex}`).classList.add('current');
+                } else {
+                    endTypingGame(true);
+                }
+            } else {
+                currentBox.classList.add('wrong');
+                endTypingGame(false);
+            }
+        }
+
+        function endTypingGame(success) {
+            clearInterval(typingTimer);
+            document.removeEventListener('keypress', handleKeyPress);
+            
+            setTimeout(() => {
+                if (success) {
+                    showMessage('win');
+                } else {
+                    showMessage('lose');
+                }
+            }, 2000);
+        }
+
+        // تحدي فك التشابك
+        let canvas, ctx;
+        let nodes = [];
+        let edges = [];
+        let selectedNode = null;
+        let untangleTimer;
+        const UNTANGLE_TIME = 7000; // 7 ثواني
+        let untangleTimeLeft;
+
+        class Node {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.radius = 15;
+                this.isDragging = false;
+                this.dragOffsetX = 0;
+                this.dragOffsetY = 0;
+                this.connections = 0; // عدد الاتصالات للنقطة
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.isDragging ? '#f1c40f' : '#3498db';
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+
+            contains(x, y) {
+                const dx = this.x - x;
+                const dy = this.y - y;
+                return Math.sqrt(dx * dx + dy * dy) <= this.radius;
+            }
+        }
+
+        class Edge {
+            constructor(node1, node2) {
+                this.node1 = node1;
+                this.node2 = node2;
+                this.crossed = false;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.node1.x, this.node1.y);
+                ctx.lineTo(this.node2.x, this.node2.y);
+                ctx.strokeStyle = this.crossed ? '#e74c3c' : '#2ecc71';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+
+            checkCrossing(edge) {
+                if (edge === this) return false;
+                if (edge.node1 === this.node1 || edge.node1 === this.node2 || 
+                    edge.node2 === this.node1 || edge.node2 === this.node2) return false;
+
+                const x1 = this.node1.x, y1 = this.node1.y;
+                const x2 = this.node2.x, y2 = this.node2.y;
+                const x3 = edge.node1.x, y3 = edge.node1.y;
+                const x4 = edge.node2.x, y4 = edge.node2.y;
+
+                const denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+                if (denominator === 0) return false;
+
+                const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denominator;
+                const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denominator;
+
+                return t > 0 && t < 1 && u > 0 && u < 1;
+            }
+        }
+
+        function initializeGame() {
+            nodes = [];
+            edges = [];
+            selectedNode = null;
+
+            // إنشاء 7 نقاط في مواقع عشوائية
+            const numNodes = 7;
+            const padding = 50; // المسافة من حواف الكانفاس
+
+            for (let i = 0; i < numNodes; i++) {
+                const x = padding + Math.random() * (canvas.width - 2 * padding);
+                const y = padding + Math.random() * (canvas.height - 2 * padding);
+                nodes.push(new Node(x, y));
+            }
+
+            // إنشاء الحواف - كل نقطة تتصل بـ 4 نقاط أخرى
+            for (let i = 0; i < nodes.length; i++) {
+                let availableNodes = [...nodes];
+                availableNodes.splice(i, 1); // إزالة النقطة الحالية من القائمة المتاحة
+                
+                // اختيار 4 نقاط عشوائية للاتصال
+                for (let j = 0; j < 4; j++) {
+                    if (availableNodes.length > 0 && nodes[i].connections < 4) {
+                        const randomIndex = Math.floor(Math.random() * availableNodes.length);
+                        const targetNode = availableNodes[randomIndex];
+                        
+                        if (targetNode.connections < 4) {
+                            edges.push(new Edge(nodes[i], targetNode));
+                            nodes[i].connections++;
+                            targetNode.connections++;
+                        }
+                        
+                        availableNodes.splice(randomIndex, 1);
+                    }
+                }
+            }
+
+            // التأكد من أن جميع النقاط متصلة
+            ensureAllNodesConnected();
+
+            checkCrossings();
+            draw();
+            
+            // إعادة تسجيل مستمعي الأحداث
+            setupEventListeners();
+        }
+
+        function setupEventListeners() {
+            // إزالة مستمعي الأحداث القديمة أولاً
+            canvas.removeEventListener('mousedown', handleMouseDown);
+            canvas.removeEventListener('mousemove', handleMouseMove);
+            canvas.removeEventListener('mouseup', handleMouseUp);
+            
+            // إضافة مستمعي الأحداث الجديدة
+            canvas.addEventListener('mousedown', handleMouseDown);
+            canvas.addEventListener('mousemove', handleMouseMove);
+            canvas.addEventListener('mouseup', handleMouseUp);
+        }
+
+        function ensureAllNodesConnected() {
+            for (let i = 0; i < nodes.length; i++) {
+                if (nodes[i].connections < 4) {
+                    for (let j = 0; j < nodes.length; j++) {
+                        if (i !== j && nodes[j].connections < 4) {
+                            // التحقق من عدم وجود اتصال مسبق
+                            const existingEdge = edges.find(edge => 
+                                (edge.node1 === nodes[i] && edge.node2 === nodes[j]) ||
+                                (edge.node1 === nodes[j] && edge.node2 === nodes[i])
+                            );
+                            
+                            if (!existingEdge) {
+                                edges.push(new Edge(nodes[i], nodes[j]));
+                                nodes[i].connections++;
+                                nodes[j].connections++;
+                                
+                                if (nodes[i].connections === 4) break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        function startUntangleGame() {
+            const menuContainer = document.getElementById('menuContainer');
+            const gameScreen = document.getElementById('untangleGame');
+            
+            menuContainer.style.display = 'none';
+            gameScreen.style.display = 'block';
+            
+            canvas = document.getElementById('gameCanvas');
+            ctx = canvas.getContext('2d');
+            
+            // تعيين حجم الكانفاس الفعلي ليطابق حجم العرض
+            canvas.style.cursor = 'pointer';
+            
+            initializeGame();
+            startUntangleTimer();
+            
+            // إضافة مستمع النافذة لمعالجة حالة رفع الماوس خارج الكانفاس
+            window.addEventListener('mouseup', handleMouseUp);
+        }
+
+        function startUntangleTimer() {
+            clearInterval(untangleTimer);
+            untangleTimeLeft = UNTANGLE_TIME;
+            
+            untangleTimer = setInterval(() => {
+                untangleTimeLeft -= 10;
+                const percentage = (untangleTimeLeft / UNTANGLE_TIME) * 100;
+                document.getElementById('untangleTimerBar').style.width = `${percentage}%`;
+                
+                if (untangleTimeLeft <= 0) {
+                    endUntangleGame(false);
+                }
+            }, 10);
+        }
+
+        function handleMouseDown(event) {
+            event.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const x = (event.clientX - rect.left) * scaleX;
+            const y = (event.clientY - rect.top) * scaleY;
+            
+            for (const node of nodes) {
+                if (node.contains(x, y)) {
+                    selectedNode = node;
+                    node.isDragging = true;
+                    node.dragOffsetX = x - node.x;
+                    node.dragOffsetY = y - node.y;
+                    canvas.style.cursor = 'grabbing';
+                    break;
+                }
+            }
+        }
+
+        function handleMouseMove(event) {
+            if (!selectedNode) return;
+
+            event.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const x = (event.clientX - rect.left) * scaleX;
+            const y = (event.clientY - rect.top) * scaleY;
+            
+            selectedNode.x = x - selectedNode.dragOffsetX;
+            selectedNode.y = y - selectedNode.dragOffsetY;
+            
+            // تقييد حركة النقطة داخل حدود الكانفاس
+            selectedNode.x = Math.max(selectedNode.radius, Math.min(canvas.width - selectedNode.radius, selectedNode.x));
+            selectedNode.y = Math.max(selectedNode.radius, Math.min(canvas.height - selectedNode.radius, selectedNode.y));
+            
+            checkCrossings();
+            draw();
+        }
+
+        function handleMouseUp(event) {
+            if (selectedNode) {
+                selectedNode.isDragging = false;
+                canvas.style.cursor = 'pointer';
+                selectedNode = null;
+                
+                checkCrossings();
+                if (isGameSolved()) {
+                    endUntangleGame(true);
+                }
+            }
+        }
+
+        function checkCrossings() {
+            for (const edge of edges) {
+                edge.crossed = false;
+            }
+            
+            for (let i = 0; i < edges.length; i++) {
+                for (let j = i + 1; j < edges.length; j++) {
+                    if (edges[i].checkCrossing(edges[j])) {
+                        edges[i].crossed = true;
+                        edges[j].crossed = true;
+                    }
+                }
+            }
+        }
+
+        function isGameSolved() {
+            return edges.every(edge => !edge.crossed);
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (const edge of edges) {
+                edge.draw();
+            }
+            
+            for (const node of nodes) {
+                node.draw();
+            }
+        }
+
+        function endUntangleGame(success) {
+            clearInterval(untangleTimer);
+            
+            // إزالة مستمعي الأحداث
+            canvas.removeEventListener('mousedown', handleMouseDown);
+            canvas.removeEventListener('mousemove', handleMouseMove);
+            canvas.removeEventListener('mouseup', handleMouseUp);
+            
+            setTimeout(() => {
+                if (success) {
+                    showMessage('win');
+                } else {
+                    showMessage('lose');
+                }
+            }, 2000);
+        }
+
+        // تحدي Lockpick
+        let isLockpickGameActive = false;
+        let movingSquarePosition = 0;
+        let targetPosition = 0;
+        let animationFrameId;
+        let lockpickStartTime;
+        const SQUARE_SPEED = 2;
+        const SQUARE_SIZE = 26; // حجم المربع المتحرك
+        const FRAME_SIZE = 30; // حجم الإطار
+        const OVERLAP_THRESHOLD = 0.3; // نسبة التداخل المطلوبة (30%)
+        const CONTAINER_WIDTH = 600;
+
+        function calculateOverlap(movingPos, targetPos) {
+            // حساب مقدار التداخل بين المربعين
+            const movingRight = movingPos + SQUARE_SIZE;
+            const targetRight = targetPos + FRAME_SIZE;
+            const overlapStart = Math.max(movingPos, targetPos);
+            const overlapEnd = Math.min(movingRight, targetRight);
+            
+            if (overlapEnd <= overlapStart) return 0;
+            
+            const overlapWidth = overlapEnd - overlapStart;
+            const smallerWidth = Math.min(SQUARE_SIZE, FRAME_SIZE);
+            return overlapWidth / smallerWidth;
+        }
+
+        function handleLockpickKeyPress(event) {
+            if (!isLockpickGameActive) return;
+
+            if (event.key.toLowerCase() === 'e') {
+                event.preventDefault();
+                
+                const overlap = calculateOverlap(movingSquarePosition, targetPosition);
+                const targetFrame = document.getElementById('targetFrame');
+                
+                if (overlap >= OVERLAP_THRESHOLD) {
+                    // نجاح - التداخل أكبر من أو يساوي 30%
+                    targetFrame.classList.add('perfect');
+                    isLockpickGameActive = false;
+                    cancelAnimationFrame(animationFrameId);
+                    
+                    setTimeout(() => {
+                        endLockpickGame(true);
+                    }, 200);
+                } else {
+                    // فشل - التداخل أقل من 30%
+                    isLockpickGameActive = false;
+                    cancelAnimationFrame(animationFrameId);
+                    endLockpickGame(false);
+                }
+            }
+        }
+
+        function animateLockpick() {
+            if (!isLockpickGameActive) return;
+
+            const movingSquare = document.getElementById('movingSquare');
+            const targetFrame = document.getElementById('targetFrame');
+            const progressBar = document.getElementById('progressBar');
+            
+            movingSquarePosition += SQUARE_SPEED;
+
+            // تحديث موقع المربع المتحرك
+            movingSquare.style.left = movingSquarePosition + 'px';
+
+            // حساب نسبة التداخل وتحديث حالة الإطار والمؤشر
+            const overlap = calculateOverlap(movingSquarePosition, targetPosition);
+            const overlapPercentage = Math.round(overlap * 100);
+            
+            // تحديث مؤشر نسبة التداخل
+            let indicator = document.querySelector('.overlap-indicator');
+            if (!indicator) {
+                indicator = document.createElement('div');
+                indicator.className = 'overlap-indicator';
+                document.querySelector('.lockpick-container').appendChild(indicator);
+            }
+            
+            if (overlap > 0) {
+                indicator.textContent = `${overlapPercentage}%`;
+                indicator.style.opacity = '1';
+            } else {
+                indicator.style.opacity = '0';
+            }
+
+            if (overlap >= OVERLAP_THRESHOLD * 0.5) {
+                targetFrame.classList.add('close');
+            } else {
+                targetFrame.classList.remove('close');
+            }
+
+            // تحديث شريط التقدم
+            const progress = Math.max(0, 1 - (movingSquarePosition / CONTAINER_WIDTH));
+            progressBar.style.setProperty('--progress', progress);
+
+            if (movingSquarePosition >= CONTAINER_WIDTH) {
+                endLockpickGame(false);
+                return;
+            }
+
+            animationFrameId = requestAnimationFrame(animateLockpick);
+        }
+
+        function startLockpickGame() {
+            const menuContainer = document.getElementById('menuContainer');
+            const gameScreen = document.getElementById('lockpickGame');
+            
+            menuContainer.style.display = 'none';
+            gameScreen.style.display = 'block';
+            
+            resetLockpickGame();
+        }
+
+        function resetLockpickGame() {
+            const targetFrame = document.getElementById('targetFrame');
+            const movingSquare = document.getElementById('movingSquare');
+            const progressBar = document.getElementById('progressBar');
+
+            // تحديد موقع عشوائي للإطار الثابت
+            targetPosition = 100 + Math.random() * (CONTAINER_WIDTH - 200);
+            targetFrame.style.left = targetPosition + 'px';
+
+            // إعادة تعيين موقع المربع المتحرك
+            movingSquarePosition = 0;
+            movingSquare.style.left = '0px';
+            movingSquare.style.transform = 'translateY(-50%)';
+
+            // إزالة الأصناف السابقة
+            targetFrame.classList.remove('close', 'perfect');
+
+            // إعادة تعيين شريط التقدم
+            progressBar.style.setProperty('--progress', '100%');
+
+            // إزالة مستمع المفاتيح القديم
+            document.removeEventListener('keydown', handleLockpickKeyPress);
+
+            // إزالة مؤشر نسبة التداخل إن وجد
+            const indicator = document.querySelector('.overlap-indicator');
+            if (indicator) {
+                indicator.remove();
+            }
+
+            // تفعيل اللعبة وإضافة مستمع المفاتيح الجديد
+            isLockpickGameActive = true;
+            lockpickStartTime = Date.now();
+            document.addEventListener('keydown', handleLockpickKeyPress);
+
+            // بدء حركة المربع
+            cancelAnimationFrame(animationFrameId);
+            animateLockpick();
+        }
+
+        function endLockpickGame(success) {
+            isLockpickGameActive = false;
+            cancelAnimationFrame(animationFrameId);
+            document.removeEventListener('keydown', handleLockpickKeyPress);
+            
+            // إضافة تأخير قبل إظهار الرسالة
+            setTimeout(() => {
+                if (success) {
+                    const timeTaken = ((Date.now() - lockpickStartTime) / 1000).toFixed(2);
+                    const winMessagePara = document.querySelector('#winMessage p');
+                    winMessagePara.textContent = `تم فتح القفل في ${timeTaken} ثانية!`;
+                    showMessage('win');
+                } else {
+                    const loseMessagePara = document.querySelector('#loseMessage p');
+                    loseMessagePara.textContent = 'لم تتمكن من فتح القفل. حاول مرة أخرى!';
+                    showMessage('lose');
+                }
+            }, 2000); // تأخير لمدة ثانيتين
+        }
+    </script>
+</body>
+</html>
